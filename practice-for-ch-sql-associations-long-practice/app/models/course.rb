@@ -13,11 +13,28 @@ class Course < ApplicationRecord
     has_many :enrollments,
     primary_key: :id,
     foreign_key: :course_id,
-    class_name: :Enrollment
+    class_name: :Enrollment,
+    dependent: :destroy
 
     belongs_to :prerequisite,
     primary_key: :id,
     foreign_key: :prereq_id,
-    class_name: :Course
+    class_name: :Course,
+    optional: true
+
+    has_many :prerequisites,
+    primary_key: :id,
+    foreign_key: :prereq_id,
+    class_name: :Course,
+    dependent: :destroy
+
+    belongs_to :instructor,
+    primary_key: :id,
+    foreign_key: :instructor_id,
+    class_name: :User
+
+    has_many :enrolled_students,
+    through: :enrollments,
+    source: :student
 
 end
